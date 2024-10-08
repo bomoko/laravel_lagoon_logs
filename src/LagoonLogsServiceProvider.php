@@ -7,15 +7,14 @@ use Illuminate\Support\ServiceProvider;
 class LagoonLogsServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * Register our package services and configuration.
      */
-    public function boot()
+    public function register(): void
     {
-        $this->app->make('config')->set('logging.channels.LagoonLogs', [
-          "driver" => "custom",
-          "via" => "amazeeio\LagoonLogs\LagoonLoggerFactory",
-        ]);
+        // Merge our package config with existing config to allow overrides.
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/logging.php',
+            'logging.channels.lagoon'
+        );
     }
 }
